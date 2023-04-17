@@ -1,66 +1,111 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# Laravel ChatGPT
 
-## About Laravel
+### Aplicação Laravel integrada ao ChatGPT da OpenAI, com Autenticação.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Neste projeto, temos uma aplicação Laravel 10 com PHP 8.1, com sessão de login e acesso à API ChatGPT da OpenAI, além disso, existe uma aplicação de cache para evitar o consumo de consultas realizadas recentemente.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Iniciar
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<h4>Obrigatório:</h4>
 
-## Learning Laravel
+-   PHP 8.1+
+-   OpenAI conta para API Key
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+<h4>Instalação:</h4>
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   Clone esse repositório
+-   Execute `composer install`
+-   Crie o arquivo .env na raiz do projeto
+-   Execute o comando `php artisan key:generate` para gerar uma chave de criptografia para o aplicativo.
+-   Execute o comando `php artisan migrate` para executar as migrações do banco de dados.
+-   Inicie o servidor Apache do XAMPP.
+-   Acesse o aplicativo Laravel no navegador digitando http://localhost na barra de endereços.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-## Laravel Sponsors
+# Tutorial
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
 
-### Premium Partners
+<h1>How this project was made!</h1>
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+-   Instalar laravel breeze para autenticação
 
-## Contributing
+```bash
+composer require laravel/breeze --dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   Instalar Laravel Breeze
 
-## Code of Conduct
+```bash
+php artisan breeze:install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   Rode todas as migrations, incluindo migrations do breeze
 
-## Security Vulnerabilities
+```bash
+php artisan migrate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+-   Instalar npm dependências 
 
-## License
+```bash
+npm install
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+-   Run npm para testar a aplicação
+
+```bash
+npm run dev
+```
+-   Para adicionar sessão de autenticação no aplicativo
+
+```bash
+php artisan breeze:install --dark
+```
+
+-   Instale as dependências do Nuno Maduro para suporte no OpenAI, com todos os recursos da API.
+
+```bash
+composer require openai-php/client
+```
+
+-   Adicionar a key da OpenAI em .env
+
+```bash
+echo -e '\nOPEN_AI_KEY="CHANGE_TO_YOUR_KEY..."' >> .env
+```
+
+-   Gerar OpenAIController
+
+```bash
+sail artisan make:controller OpenAIController
+```
+
+-   Execute novamente o NPM para scripts de compilação automática após as alterações
+
+```bash
+npm run dev
+```
+
+-   Nova rota no arquivo web.php, na autenticação da sessão, adicione a rota:
+
+```php
+    Route::get('/openai', [OpenAIController::class, 'index'])->name('openai.index');
+```
+
+-   Novo Link para acesso ao menu, no arquivo ./resources/views/layouts/navigation.blade.php:
+
+    ```html
+    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+        <x-nav-link
+            :href="route('openai.index')"
+            :active="request()->routeIs('openai.index')"
+        >
+            {{ __('OpenAI') }}
+        </x-nav-link>
+    </div>
+    ```
+
+-   Novo arquivo ./app/Http/Controllers/OpenAIController.php
+
+-   Novo arquivo ./resources/views/openai/index.blade.php
