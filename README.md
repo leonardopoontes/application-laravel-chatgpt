@@ -26,7 +26,7 @@ Neste projeto, temos uma aplicação Laravel 10 com PHP 8.1, com sessão de logi
 # Tutorial
 
 
-<h1>How this project was made!</h1>
+<h1>Comos esse projeto foi feito!</h1>
 
 -   Instalar laravel breeze para autenticação
 
